@@ -1,0 +1,306 @@
+scenario_1:
+  name: "stencil_component_creation"
+  read_references:
+    - reference/stencil.md
+  codebase:
+    files:
+      - path: "src/components/example/example.tsx"
+        content: |
+          import { Component, h } from '@stencil/core';
+
+          @Component({
+            tag: 'ion-example',
+            styleUrl: 'example.scss',
+            shadow: true,
+          })
+          export class Example {
+            render() {
+              return <div>Example</div>;
+            }
+          }
+  prompt: |
+    Update this Stencil component to add a 'value' property, an 'ionChange' event,
+    and a method to reset the value. Follow Ionic Framework conventions.
+  validation:
+    prerequisites:
+      - point: "Uses @Prop decorator"
+        description: "Component should use @Prop() decorator for the value property"
+      - point: "Uses @Event decorator"
+        description: "Component should use @Event() decorator for ionChange event"
+      - point: "Uses @Method decorator"
+        description: "Component should use @Method() async decorator for public method"
+      - point: "Proper TypeScript types"
+        description: "All decorators should have proper TypeScript types"
+    skill_scoring:
+      - point: "Follows naming conventions"
+        description: "Property named 'value', event named 'ionChange', method descriptive"
+      - point: "EventEmitter with CustomEvent"
+        description: "Event uses EventEmitter<CustomEvent> pattern"
+      - point: "Method returns Promise"
+        description: "Public method is async and returns Promise<void>"
+      - point: "Includes Host wrapper"
+        description: "Render method returns <Host> wrapper component"
+
+scenario_2:
+  name: "playwright_test_creation"
+  read_references:
+    - reference/testing.md
+  codebase:
+    files:
+      - path: "src/components/button/test/basic/button.e2e.ts"
+        content: |
+          import { test } from '@playwright/test';
+
+          test('button test', async ({ page }) => {
+            await page.goto('/src/components/button/test/basic');
+            // TODO: Add test implementation
+          });
+  prompt: |
+    Complete this E2E test to verify the button component renders correctly
+    in both iOS and Material Design modes. Add a screenshot test following
+    Ionic Framework conventions.
+  validation:
+    prerequisites:
+      - point: "Uses custom test fixture"
+        description: "Should import test from '@utils/test/playwright' not '@playwright/test'"
+      - point: "Uses configs generator"
+        description: "Should use configs() generator to test multiple modes"
+      - point: "Uses title helper"
+        description: "Should use title() helper for unique test names"
+      - point: "Uses screenshot helper"
+        description: "Should use screenshot() helper for unique screenshot names"
+    skill_scoring:
+      - point: "Tests multiple configurations"
+        description: "Tests iOS and MD modes with LTR/RTL directions"
+      - point: "Proper test.describe structure"
+        description: "Uses test.describe block with title() helper"
+      - point: "Waits for page load"
+        description: "Passes config to page.goto() for proper initialization"
+      - point: "Screenshot assertion"
+        description: "Uses expect(page).toHaveScreenshot(screenshot('...'))"
+
+scenario_3:
+  name: "issue_triaging_workflow"
+  read_references:
+    - reference/triaging.md
+  codebase:
+    files:
+      - path: "issue.md"
+        content: |
+          ## Bug Report
+
+          The ion-button component doesn't work when I click it.
+
+          I'm using Ionic 7.0.0 in my Angular project.
+  prompt: |
+    As an Ionic Framework team member, how should I triage this GitHub issue?
+    What labels should I apply? What should I ask the reporter?
+  validation:
+    prerequisites:
+      - point: "Identifies missing reproduction"
+        description: "Recognizes the issue needs a reproduction case"
+      - point: "Requests specific information"
+        description: "Asks for clear reproduction steps, expected vs actual behavior"
+      - point: "Mentions time limits"
+        description: "Explains 5-10 minute triaging time limit"
+    skill_scoring:
+      - point: "Applies correct label"
+        description: "Suggests 'ionitron: needs reproduction' label"
+      - point: "Requests GitHub repo"
+        description: "Specifically requests a GitHub repository (not Plunker, JSFiddle, etc.)"
+      - point: "Explains auto-close"
+        description: "Mentions 14-day auto-close if no reproduction provided"
+      - point: "Professional tone"
+        description: "Maintains friendly, professional communication"
+      - point: "Links to Contributing Guide"
+        description: "Provides link to reproduction guidelines"
+
+scenario_4:
+  name: "commit_message_format"
+  read_references:
+    - reference/pr-guidelines.md
+  codebase:
+    files:
+      - path: "src/components/button/button.tsx"
+        content: |
+          // Fixed: Button now applies correct color when disabled
+          @Component({ tag: 'ion-button', shadow: true })
+          export class Button {
+            @Prop() disabled = false;
+
+            render() {
+              const color = this.disabled ? 'var(--color-disabled)' : 'var(--color)';
+              return <Host style={{ color }}><slot /></Host>;
+            }
+          }
+  prompt: |
+    I fixed a bug where ion-button wasn't using the correct color when disabled.
+    Write a commit message for this fix following Ionic Framework conventions.
+  validation:
+    prerequisites:
+      - point: "Uses conventional commits format"
+        description: "Commit message follows type(scope): subject format"
+      - point: "Correct commit type"
+        description: "Uses 'fix' type for bug fix"
+      - point: "Correct scope"
+        description: "Uses 'button' as scope (component name)"
+      - point: "Imperative mood"
+        description: "Subject uses imperative present tense"
+    skill_scoring:
+      - point: "Lowercase subject"
+        description: "Subject line starts with lowercase letter"
+      - point: "No period at end"
+        description: "Subject line does not end with period"
+      - point: "Under 50 characters"
+        description: "Header line is under 50 characters"
+      - point: "Descriptive body"
+        description: "Includes body explaining the why, not just the what"
+      - point: "References issue"
+        description: "Includes 'closes #XXXX' in footer"
+
+scenario_5:
+  name: "troubleshooting_component_not_rendering"
+  read_references:
+    - reference/troubleshooting.md
+    - reference/stencil.md
+  codebase:
+    files:
+      - path: "src/components/card/card.tsx"
+        content: |
+          import { Component, h } from '@stencil/core';
+
+          @Component({
+            tag: 'ion-card',
+            styleUrl: 'card.scss',
+            shadow: true,
+          })
+          export class Card {
+            render() {
+              return <Host><slot /></Host>;
+            }
+          }
+      - path: "src/components/card/card.scss"
+        content: |
+          :host {
+            background: white;
+            border-radius: 8px;
+          }
+  prompt: |
+    The ion-card component is not rendering - it appears as an empty tag in the DOM.
+    The shadow root is created but nothing is visible. Help me debug this issue.
+  validation:
+    prerequisites:
+      - point: "Identifies likely causes"
+        description: "Suggests checking display property, JavaScript errors, component registration"
+      - point: "Provides debugging steps"
+        description: "Outlines systematic debugging approach"
+      - point: "Checks CSS display"
+        description: "Mentions checking if :host has display property set"
+    skill_scoring:
+      - point: "Suggests adding display property"
+        description: "Recommends adding 'display: block' or similar to :host"
+      - point: "Check browser console"
+        description: "Suggests checking for JavaScript errors in console"
+      - point: "Verify component registration"
+        description: "Suggests verifying @Component decorator is correct"
+      - point: "Check slot content"
+        description: "Mentions that slot needs content to be visible"
+      - point: "Rebuild suggestion"
+        description: "Suggests rebuilding the component as potential fix"
+
+scenario_6:
+  name: "feature_design_document"
+  read_references:
+    - reference/development-process.md
+  codebase:
+    files:
+      - path: "feature-request.md"
+        content: |
+          Feature: Add clear button to ion-input
+
+          Users need a quick way to clear input fields. This is common
+          in mobile apps and improves UX. The clear button should appear
+          when the input has a value and clear the input when clicked.
+  prompt: |
+    I need to create a design document for this feature request. What sections
+    should I include and what details are required before implementation can begin?
+  validation:
+    prerequisites:
+      - point: "Validates feature criteria"
+        description: "Checks against the three acceptance criteria"
+      - point: "Requires design document"
+        description: "Mentions that features require design documents"
+      - point: "Lists required sections"
+        description: "Outlines the sections needed in design document"
+    skill_scoring:
+      - point: "Mentions acceptance criteria"
+        description: "References concrete use case, burden analysis, general problem solution"
+      - point: "Includes API section"
+        description: "Design should include proposed API (properties, events, methods)"
+      - point: "Includes implementation details"
+        description: "Design should cover component structure and behavior"
+      - point: "Includes testing strategy"
+        description: "Design should outline unit and E2E testing approach"
+      - point: "Includes platform considerations"
+        description: "Design should address iOS and Material Design differences"
+      - point: "Mentions review process"
+        description: "Explains team review and approval process"
+
+scenario_7:
+  name: "adding_tests_to_component"
+  read_references:
+    - reference/testing.md
+    - reference/stencil.md
+  codebase:
+    files:
+      - path: "src/components/toggle/toggle.tsx"
+        content: |
+          import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
+
+          @Component({
+            tag: 'ion-toggle',
+            shadow: true,
+          })
+          export class Toggle {
+            @Prop() checked = false;
+            @Event() ionChange!: EventEmitter<{ checked: boolean }>;
+
+            private handleClick = () => {
+              this.checked = !this.checked;
+              this.ionChange.emit({ checked: this.checked });
+            }
+
+            render() {
+              return (
+                <Host onClick={this.handleClick}>
+                  <div class={`toggle ${this.checked ? 'checked' : ''}`}>
+                    <div class="toggle-icon" />
+                  </div>
+                </Host>
+              );
+            }
+          }
+  prompt: |
+    Write comprehensive tests for this toggle component including both
+    unit tests and E2E tests. Follow Ionic Framework testing conventions.
+  validation:
+    prerequisites:
+      - point: "Creates unit test file"
+        description: "Suggests creating toggle.spec.ts file"
+      - point: "Creates E2E test file"
+        description: "Suggests creating toggle.e2e.ts file"
+      - point: "Uses correct test fixtures"
+        description: "Uses newSpecPage for unit tests, custom test fixture for E2E"
+    skill_scoring:
+      - point: "Tests checked property"
+        description: "Unit test verifies checked property behavior"
+      - point: "Tests ionChange event"
+        description: "Unit test verifies event emission with correct detail"
+      - point: "Tests click interaction"
+        description: "E2E test verifies clicking toggles the state"
+      - point: "Tests visual rendering"
+        description: "E2E test includes screenshot test"
+      - point: "Uses configs generator"
+        description: "E2E test uses configs() to test multiple modes"
+      - point: "Waits for changes"
+        description: "Tests use waitForChanges() after state updates"

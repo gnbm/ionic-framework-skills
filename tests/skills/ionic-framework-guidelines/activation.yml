@@ -1,0 +1,120 @@
+prompts:
+  # Positive activation tests - should activate the skill
+
+  # General Ionic Framework development
+  - "Write an Ionic Framework component using Stencil"
+  - "Create a new ion-button component"
+  - "How do I create web components with Stencil for Ionic?"
+  - "Debug this Ionic component rendering issue"
+  - "Help me implement an Ionic modal"
+
+  # Stencil-specific
+  - "Add a @Prop decorator to my Stencil component"
+  - "How do I use lifecycle hooks in Stencil?"
+  - "Fix this Stencil component JSX rendering"
+  - "Create a Stencil web component for Ionic"
+  - "How do I use @Watch decorator in Stencil?"
+
+  # Testing-specific
+  - "Write Jest unit tests for this Ionic component"
+  - "Create Playwright E2E tests for ion-modal"
+  - "How do I test Ionic components with Playwright?"
+  - "Generate screenshot tests for my component"
+  - "Fix failing E2E tests in Ionic Framework"
+  - "Update Playwright ground truth screenshots"
+
+  # Issue triaging
+  - "Triage this GitHub issue for Ionic Framework"
+  - "How should I label this Ionic Framework bug report?"
+  - "This issue needs a reproduction case"
+  - "Determine if this is a bug or support question"
+  - "Close this issue as support question"
+
+  # Pull request guidelines
+  - "Create a pull request for Ionic Framework"
+  - "Write a commit message for this Ionic bug fix"
+  - "Review this PR for Ionic Framework"
+  - "What's the commit format for Ionic Framework?"
+  - "How do I merge this PR in Ionic?"
+
+  # Feature development
+  - "Propose a new feature for Ionic Framework"
+  - "Write a design document for ion-input clear button"
+  - "Follow the feature development process for Ionic"
+  - "What are the acceptance criteria for Ionic features?"
+  - "Create a feature request for Ionic Framework"
+
+  # Framework integration
+  - "Integrate Ionic with Angular"
+  - "Use Ionic components in React"
+  - "Set up Ionic with Vue 3"
+  - "How do I use Ionic React Router?"
+  - "Configure Ionic Angular forms integration"
+
+  # Troubleshooting
+  - "Debug this Ionic component not rendering"
+  - "Fix Ionic button ripple effect on iOS"
+  - "Troubleshoot Ionic modal animation issue"
+  - "Why is my Ionic component styling not working?"
+  - "Resolve Ionic build errors"
+
+  # Code context-based activation (with fixtures)
+  - prompt: "Review this Stencil component code"
+    activated_skills:
+      - ionic-framework-guidelines
+    read_references:
+      - reference/stencil.md
+
+  - prompt: "Add tests to this Ionic component"
+    activated_skills:
+      - ionic-framework-guidelines
+    read_references:
+      - reference/testing.md
+
+  - prompt: "Help me triage this issue"
+    activated_skills:
+      - ionic-framework-guidelines
+    read_references:
+      - reference/triaging.md
+
+  # Negative activation tests - should NOT activate the skill
+
+  - prompt: "Create a React component without Ionic"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Write Angular service for authentication"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Build a Vue component without Ionic"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Create a Node.js Express server"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Write Python unit tests"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "How do I use Capacitor plugins?"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Debug OutSystems UI components"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Create a generic web component without Ionic"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Write JavaScript tests with Mocha"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Configure GitHub Actions workflow"
+    not_activated_skills:
+      - ionic-framework-guidelines

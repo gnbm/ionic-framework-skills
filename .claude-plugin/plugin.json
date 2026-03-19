@@ -1,0 +1,25 @@
+{
+  "name": "ionic-framework-skills",
+  "version": "1.0.0",
+  "description": "Comprehensive development guidelines for Ionic Framework covering Angular, React, Vue, Stencil, testing, triaging, PR guidelines, and troubleshooting",
+  "author": "UI OpenSource Team",
+  "skills": [
+    "ionic-framework-guidelines"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/ionic-framework-skills"
+  },
+  "keywords": [
+    "ionic",
+    "ionic-framework",
+    "angular",
+    "react",
+    "vue",
+    "stencil",
+    "web-components",
+    "mobile",
+    "testing",
+    "guidelines"
+  ]
+}
