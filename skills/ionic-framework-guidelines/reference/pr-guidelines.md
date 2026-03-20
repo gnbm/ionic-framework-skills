@@ -2,6 +2,8 @@
 
 Comprehensive guidelines for creating, reviewing, and merging pull requests in Ionic Framework.
 
+> **Note for Windows Users:** Commands in this guide use Unix-style syntax. See the main [SKILL.md Platform Notes](../SKILL.md#platform-notes) section for Windows alternatives.
+
 ## Contents
 
 - [Overview](#overview)
@@ -51,9 +53,12 @@ Pull requests (PRs) are the primary way to contribute code to Ionic Framework. A
 ### Setup Development Environment
 
 ```bash
-# Fork and clone the repository
+# Fork the repository on GitHub first, then clone YOUR fork
 git clone https://github.com/YOUR_USERNAME/ionic-framework.git
 cd ionic-framework
+
+# Add upstream remote to track the main repository
+git remote add upstream https://github.com/ionic-team/ionic-framework.git
 
 # Create a new branch from main
 git checkout -b fix-issue-12345

@@ -10,6 +10,7 @@ Comprehensive guidelines for developing with and contributing to Ionic Framework
 
 ## Contents
 
+- [Platform Notes](#platform-notes)
 - [Overview](#overview)
 - [When to Use](#when-to-use)
 - [When NOT to Use](#when-not-to-use)
@@ -19,6 +20,17 @@ Comprehensive guidelines for developing with and contributing to Ionic Framework
 - [Testing Guidelines](#testing-guidelines)
 - [Troubleshooting](#troubleshooting)
 - [Quick Reference](#quick-reference)
+
+---
+
+## Platform Notes
+
+**Windows Users:** This skill includes Unix-style commands (bash). If you're on Windows:
+- ✅ **Recommended:** Use [Git Bash](https://git-scm.com/) (comes with Git for Windows)
+- ✅ **Alternative:** Use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux)
+- ⚠️ **PowerShell/CMD:** Some commands will need modification (noted in specific sections)
+
+**Path Separators:** All paths in this guide use forward slashes `/` which work on all platforms including Windows.
 
 ---
 
@@ -310,7 +322,6 @@ For common issues, debugging strategies, error resolution patterns, and FAQs, se
 - **Ionicons:** [https://ionic.io/ionicons](https://ionic.io/ionicons)
 - **Ionic Forum:** [https://forum.ionicframework.com/](https://forum.ionicframework.com/)
 - **Ionic Discord:** [https://ionic.link/discord](https://ionic.link/discord)
-- **Framework Team Processes (Internal):** [Confluence Page](https://outsystemsrd.atlassian.net/wiki/spaces/RDMBLVS/pages/3875111551/Framework+Team+Processes)
 
 ## Additional Notes
 
