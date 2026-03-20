@@ -2,6 +2,8 @@
 
 Comprehensive troubleshooting guide for common issues, debugging strategies, and resolution steps in Ionic Framework development.
 
+> **Note for Windows Users:** Commands in this guide include Windows PowerShell and CMD alternatives where applicable. See the main [SKILL.md Platform Notes](../SKILL.md#platform-notes) section for more information.
+
 ## Contents
 
 - [Overview](#overview)
@@ -341,13 +343,28 @@ valueChanged(newValue: string, oldValue: string) {
 **Clear cache and rebuild:**
 ```bash
 # Remove build artifacts
+# Unix/Mac/Git Bash:
 rm -rf www/ dist/ loader/ .stencil/
 
-# Clean install
-rm -rf node_modules package-lock.json
-npm install
+# Windows PowerShell:
+Remove-Item -Path www,dist,loader,.stencil -Recurse -Force -ErrorAction SilentlyContinue
 
-# Rebuild
+# Windows CMD:
+for %d in (www dist loader .stencil) do @if exist %d rmdir /s /q %d
+
+# Clean install (all platforms)
+# Unix/Mac/Git Bash:
+rm -rf node_modules package-lock.json
+
+# Windows PowerShell:
+Remove-Item -Path node_modules,package-lock.json -Recurse -Force -ErrorAction SilentlyContinue
+
+# Windows CMD:
+if exist node_modules rmdir /s /q node_modules
+if exist package-lock.json del /q package-lock.json
+
+# Reinstall and rebuild (all platforms)
+npm install
 npm run build
 ```
 
@@ -384,29 +401,47 @@ npm run lint.sass
 
 **Restart dev server:**
 ```bash
-# Stop server (Ctrl+C)
+# Stop server (Ctrl+C on all platforms)
+
 # Clear cache
+# Unix/Mac/Git Bash:
 rm -rf www/ .stencil/
-# Restart
+
+# Windows PowerShell:
+Remove-Item -Path www,.stencil -Recurse -Force -ErrorAction SilentlyContinue
+
+# Windows CMD:
+if exist www rmdir /s /q www
+if exist .stencil rmdir /s /q .stencil
+
+# Restart (all platforms)
 npm run dev
 ```
 
 **Check port conflicts:**
 ```bash
-# If port 3333 is in use, kill process:
-# macOS/Linux:
+# If port 3333 is in use, kill the process:
+
+# Unix/Mac:
 lsof -ti:3333 | xargs kill -9
 
-# Windows:
-netstat -ano | findstr :3333
-taskkill /PID <PID> /F
+# Windows PowerShell:
+Get-NetTCPConnection -LocalPort 3333 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }
+
+# Windows CMD:
+FOR /F "tokens=5" %P IN ('netstat -ano ^| findstr :3333') DO TaskKill /PID %P /F
 ```
 
 **Hard refresh browser:**
 ```
-# Chrome/Edge: Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
-# Firefox: Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
-# Safari: Cmd+Option+R
+Windows/Linux:
+  Chrome/Edge: Ctrl+Shift+R
+  Firefox: Ctrl+Shift+R
+
+Mac:
+  Chrome/Edge: Cmd+Shift+R
+  Firefox: Cmd+Shift+R
+  Safari: Cmd+Option+R
 ```
 
 ### Lint Failures

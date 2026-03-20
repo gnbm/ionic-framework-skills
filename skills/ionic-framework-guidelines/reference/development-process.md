@@ -2,6 +2,8 @@
 
 Comprehensive guide for the feature development lifecycle in Ionic Framework, from proposal to release.
 
+> **Note for Windows Users:** Commands in this guide use Unix-style syntax. See the main [SKILL.md Platform Notes](../SKILL.md#platform-notes) section for Windows alternatives.
+
 ## Contents
 
 - [Overview](#overview)
@@ -400,6 +402,7 @@ No breaking changes. New optional property.
 
 5. **Run Local Tests**
    ```bash
+   # All platforms
    npm run lint
    npm run test.spec
    npm run test.e2e

@@ -2,6 +2,8 @@
 
 Comprehensive testing guidelines for Ionic Framework including unit tests (Jest) and E2E tests (Playwright).
 
+> **Note for Windows Users:** Commands in this guide use Unix-style syntax, with Windows alternatives provided where needed. See the main [SKILL.md Platform Notes](../SKILL.md#platform-notes) section for more information.
+
 ## Contents
 
 - [Overview](#overview)
@@ -149,12 +151,24 @@ it('should open modal via method', async () => {
 **Install Dependencies:**
 ```bash
 cd core
-npm ci
+
+# Install dependencies (use ci for clean install from package-lock.json)
+npm ci  # Recommended: Installs exact versions, faster, used in CI
+# OR
+npm install  # Alternative: Installs dependencies and updates package-lock.json
+
+# Install Playwright browsers
 npx playwright install
 ```
 
 **Optional - Docker Setup (Recommended):**
-Install [Rancher Desktop](https://rancherdesktop.io/) for consistent testing environment.
+Install [Rancher Desktop](https://rancherdesktop.io/) to run screenshot tests in a containerized Linux environment.
+
+**Why Docker/Rancher Desktop?**
+- Generates pixel-perfect screenshots that match the CI environment
+- Eliminates font rendering differences between operating systems (Windows/Mac/Linux)
+- Required for creating official ground truth screenshots for PRs
+- Ensures consistent browser behavior across all development platforms
 
 ### Running E2E Tests
 
@@ -417,7 +431,11 @@ npm run test.e2e src/components/button/test/basic/button.e2e.ts -- --repeat-each
 npm run test.e2e.docker.update-snapshots
 
 # Generate ground truths for specific component
+# Unix/Mac/Git Bash:
 npm run test.e2e.docker.update-snapshots src/components/alert/
+
+# Windows PowerShell/CMD (use quotes):
+npm run test.e2e.docker.update-snapshots "src/components/alert/"
 ```
 
 **Without Docker (Local Only):**
@@ -426,7 +444,11 @@ npm run test.e2e.docker.update-snapshots src/components/alert/
 npm run test.e2e.update-snapshots
 
 # Generate for specific component
+# Unix/Mac/Git Bash:
 npm run test.e2e.update-snapshots src/components/alert/
+
+# Windows PowerShell/CMD (use quotes):
+npm run test.e2e.update-snapshots "src/components/alert/"
 ```
 
 **Using GitHub Actions (Ionic Team Only):**
