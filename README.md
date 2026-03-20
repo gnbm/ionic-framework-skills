@@ -51,7 +51,7 @@ This Claude Code skill plugin provides expert guidance for:
 Once published to the marketplace, you can install using:
 
 ```bash
-/koda:find-extensions ionic framework
+claude plugin install ionic-framework-skills"
 ```
 
 ## 🎯 Usage
@@ -242,7 +242,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 - **Ionic Docs:** [https://ionicframework.com/docs](https://ionicframework.com/docs)
 - **Stencil:** [https://stenciljs.com](https://stenciljs.com)
 - **Claude Code:** [https://claude.ai/code](https://claude.ai/code)
-- **Skill Authoring Guide:** Use `/koda:skill-authoring` in Claude Code
 
 ## 📊 Statistics
 

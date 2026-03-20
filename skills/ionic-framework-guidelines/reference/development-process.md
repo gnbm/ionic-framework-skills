@@ -551,4 +551,3 @@ Features are estimated using story points:
 - **Component Guide:** `docs/component-guide.md`
 - **Testing Guide:** `docs/core/testing/README.md`
 - **Feature Request Template:** `.github/ISSUE_TEMPLATE/feature_request.yml`
-- **Internal Processes:** [Framework Team Processes (Confluence)](https://outsystemsrd.atlassian.net/wiki/spaces/RDMBLVS/pages/3875111551/Framework+Team+Processes)

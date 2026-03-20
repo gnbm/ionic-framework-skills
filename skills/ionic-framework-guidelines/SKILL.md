@@ -310,7 +310,6 @@ For common issues, debugging strategies, error resolution patterns, and FAQs, se
 - **Ionicons:** [https://ionic.io/ionicons](https://ionic.io/ionicons)
 - **Ionic Forum:** [https://forum.ionicframework.com/](https://forum.ionicframework.com/)
 - **Ionic Discord:** [https://ionic.link/discord](https://ionic.link/discord)
-- **Framework Team Processes (Internal):** [Confluence Page](https://outsystemsrd.atlassian.net/wiki/spaces/RDMBLVS/pages/3875111551/Framework+Team+Processes)
 
 ## Additional Notes
 

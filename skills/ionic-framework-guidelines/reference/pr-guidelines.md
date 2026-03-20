@@ -52,7 +52,7 @@ Pull requests (PRs) are the primary way to contribute code to Ionic Framework. A
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/ionic-framework.git
+git clone https://github.com/gnbm/ionic-framework.git
 cd ionic-framework
 
 # Create a new branch from main
