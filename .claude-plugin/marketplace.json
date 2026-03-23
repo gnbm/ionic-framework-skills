@@ -4,11 +4,11 @@
   "type": "marketplace",
   "source_type": "github",
   "url": "gnbm/ionic-framework-skills",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "plugins": [
     {
       "name": "ionic-framework-skills",
-      "version": "0.1.1",
+      "version": "0.2.1",
       "source": "./",
       "description": "Comprehensive development guidelines for Ionic Framework covering Angular, React, Vue, Stencil, testing, triaging, PR guidelines, and troubleshooting"
     }
