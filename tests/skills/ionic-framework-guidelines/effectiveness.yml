@@ -304,3 +304,193 @@ scenario_7:
         description: "E2E test uses configs() to test multiple modes"
       - point: "Waits for changes"
         description: "Tests use waitForChanges() after state updates"
+
+scenario_8:
+  name: "root_cause_documentation_quality"
+  read_references:
+    - reference/triaging.md
+  codebase:
+    files:
+      - path: "issue.md"
+        content: |
+          ## Bug Report
+
+          The popover arrow renders under the backdrop on iOS.
+
+          Steps to reproduce: Open a popover component.
+          Expected: Arrow should be visible above backdrop.
+          Actual: Arrow is hidden behind backdrop.
+  prompt: |
+    I've confirmed this is a bug in Ionic Framework. Write a root cause
+    description for the tracking ticket that will help the implementer fix it.
+  validation:
+    prerequisites:
+      - point: "Identifies root cause vs symptom"
+        description: "Distinguishes between what's happening (symptom) and why it's happening (root cause)"
+      - point: "Provides specific technical detail"
+        description: "Identifies specific CSS property or code causing the issue"
+      - point: "Avoids vague descriptions"
+        description: "Doesn't just say 'because of styles' or restate the symptom"
+    skill_scoring:
+      - point: "Mentions z-index specifically"
+        description: "Identifies z-index as the likely root cause"
+      - point: "Compares values"
+        description: "Provides comparison of z-index values (backdrop vs arrow)"
+      - point: "Helps implementer know where to start"
+        description: "Description clearly guides developer to the fix location"
+      - point: "Emphasizes refinement blocker"
+        description: "Explains root cause documentation is required for refinement meeting"
+
+scenario_9:
+  name: "branch_syncing_process"
+  read_references:
+    - reference/pr-guidelines.md
+  codebase:
+    files:
+      - path: "sync-question.md"
+        content: |
+          I need to sync the 'next' branch with 'main' to pull in the
+          latest bug fixes before releasing the next minor version.
+
+          What's the correct process to follow?
+  prompt: |
+    Walk me through the correct process for syncing the next branch with
+    main in Ionic Framework. What are the critical steps I need to follow?
+  validation:
+    prerequisites:
+      - point: "Mentions code freeze"
+        description: "Explains need to announce code freeze before syncing"
+      - point: "Creates sync branch"
+        description: "Recommends creating dedicated sync branch (not direct merge)"
+      - point: "Uses regular merge"
+        description: "Specifies regular merge commit, not squash and merge"
+    skill_scoring:
+      - point: "Pre-sync announcement"
+        description: "Details posting code freeze in team channels"
+      - point: "Sync branch naming"
+        description: "Suggests naming convention like chore-sync-next-with-main"
+      - point: "PR title format"
+        description: "Specifies 'chore(git): sync main' format"
+      - point: "Target branch clarity"
+        description: "Clarifies merge into feature branch (next), not main"
+      - point: "Admin requirement"
+        description: "Mentions GitHub admin privileges required for regular merge"
+      - point: "Post-sync announcement"
+        description: "Details posting code unfreeze after merge completes"
+      - point: "Recovery steps"
+        description: "Includes recovery process if accidentally squashed"
+
+scenario_10:
+  name: "testing_feature_in_actual_application"
+  read_references:
+    - reference/development-process.md
+  codebase:
+    files:
+      - path: "feature-branch-info.md"
+        content: |
+          I've completed implementation of a new 'clearInput' property
+          for ion-input. All unit and E2E tests pass. The PR is ready
+          for review.
+  prompt: |
+    Before I submit this PR, what should I do to test this feature in
+    an actual Ionic application? Walk me through the complete process.
+  validation:
+    prerequisites:
+      - point: "Create dev build"
+        description: "Mentions building the project"
+      - point: "Create starter app"
+        description: "Suggests creating or using an Ionic starter application"
+      - point: "Install dev build"
+        description: "Explains installing the dev build in the test app"
+    skill_scoring:
+      - point: "Build commands"
+        description: "Provides npm run build and npm pack commands"
+      - point: "Starter app creation"
+        description: "Shows ionic start command or equivalent"
+      - point: "Installation methods"
+        description: "Shows both npm install from tarball and npm link options"
+      - point: "Evaluation questions"
+        description: "Lists questions: documentation match, API clarity, ease of use"
+      - point: "Integration testing"
+        description: "Mentions testing with framework-specific features (forms, router)"
+      - point: "Document results"
+        description: "Explains documenting testing steps on the PR"
+
+scenario_11:
+  name: "renovate_pr_review"
+  read_references:
+    - reference/pr-guidelines.md
+  codebase:
+    files:
+      - path: "renovate-pr.md"
+        content: |
+          ## Renovate PR
+
+          **Update @types/react from 18.0.0 to 18.2.0**
+
+          This PR updates the React type definitions used in the
+          Ionic Framework packages.
+  prompt: |
+    How should I review this Renovate PR for Ionic Framework?
+    What should I check before approving and merging?
+  validation:
+    prerequisites:
+      - point: "Check if devDependency"
+        description: "Identifies this is a devDependency, not production dependency"
+      - point: "Verify build succeeds"
+        description: "Mentions checking that project compiles successfully"
+      - point: "Check CI status"
+        description: "Confirms all CI checks must pass"
+    skill_scoring:
+      - point: "Different checks for devDep"
+        description: "Explains devDependencies have lighter testing requirements than dependencies"
+      - point: "Local dev experience"
+        description: "Mentions verifying JSX bindings detect correctly for @types/react"
+      - point: "Test pass requirement"
+        description: "Specifies running npm run test"
+      - point: "Review changelog"
+        description: "Suggests reviewing dependency changelog for breaking changes"
+      - point: "No new vulnerabilities"
+        description: "Mentions checking for security vulnerabilities"
+
+scenario_12:
+  name: "technical_debt_todo_format"
+  read_references:
+    - reference/pr-guidelines.md
+  codebase:
+    files:
+      - path: "src/components/modal/modal.tsx"
+        content: |
+          import { Component, h } from '@stencil/core';
+
+          @Component({ tag: 'ion-modal', shadow: true })
+          export class Modal {
+            // TODO: This animation system needs refactoring
+            private playAnimation() {
+              // Temporary workaround for performance issue
+              requestAnimationFrame(() => {
+                // Animation logic here
+              });
+            }
+          }
+  prompt: |
+    I have some technical debt in this code that I need to defer to a
+    future PR. How should I format the TODO comment to ensure it's properly
+    tracked and doesn't get lost?
+  validation:
+    prerequisites:
+      - point: "Create tracking ticket"
+        description: "Mentions creating a Jira or tracking ticket first"
+      - point: "Reference ticket in TODO"
+        description: "Explains TODO must reference the ticket ID"
+      - point: "Specific format required"
+        description: "Acknowledges there's a required format"
+    skill_scoring:
+      - point: "Correct format shown"
+        description: "Shows // TODO(TICKET-ID) description format"
+      - point: "Example provided"
+        description: "Provides example like // TODO(FW-123) Refactor animation system"
+      - point: "Explains why"
+        description: "Explains this prevents TODOs from being lost"
+      - point: "Document context"
+        description: "Mentions documenting why deferred and what needs to be done in ticket"

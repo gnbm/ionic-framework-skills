@@ -58,6 +58,38 @@ prompts:
   - "Why is my Ionic component styling not working?"
   - "Resolve Ionic build errors"
 
+  # Branch syncing
+  - "Sync the next branch with main in Ionic Framework"
+  - "How do I create a sync branch for Ionic?"
+  - "Merge main into feature branch following Ionic process"
+  - "Announce code freeze for branch syncing"
+
+  # Jira workflow
+  - "What Jira workflow states does Ionic Framework use?"
+  - "Move this PR to Testing state"
+  - "When can I merge - ticket is in Waiting for Merge"
+
+  # Technical debt management
+  - "Format a TODO comment with ticket reference"
+  - "Create a technical debt tracking comment"
+  - "Add a TODO for deferred work in Ionic"
+
+  # Renovate & Dependabot PRs
+  - "Review this Renovate dependency update PR"
+  - "Check this Dependabot PR for Ionic Framework"
+  - "How do I review GitHub Actions dependency updates?"
+
+  # Testing in actual applications
+  - "Test this feature in a real Ionic application"
+  - "Create a dev build of my feature branch"
+  - "Install dev build in an Ionic starter app"
+  - "Validate this feature in an actual app"
+
+  # Root cause documentation
+  - "Document the root cause of this bug"
+  - "Write a root cause description for this issue"
+  - "Why does Ionic require root cause documentation?"
+
   # Code context-based activation (with fixtures)
   - prompt: "Review this Stencil component code"
     activated_skills:
@@ -116,5 +148,17 @@ prompts:
       - ionic-framework-guidelines
 
   - prompt: "Configure GitHub Actions workflow"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Sync git branches in my project"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Review a Renovate PR for my React app"
+    not_activated_skills:
+      - ionic-framework-guidelines
+
+  - prompt: "Write TODO comments in my code"
     not_activated_skills:
       - ionic-framework-guidelines
