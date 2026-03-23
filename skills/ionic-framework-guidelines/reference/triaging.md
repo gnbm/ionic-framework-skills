@@ -98,6 +98,28 @@ Before marking as `type: bug`:
 3. Determine if it's a framework bug or user error
 4. If confirmed bug, add `type: bug` label
 5. If user error, explain and close
+6. **Document root cause on the tracking ticket**
+
+**CRITICAL:** All bugs must have a root-cause documented on the tracking ticket before the issue can be refined and assigned.
+
+Without a documented root cause:
+- ❌ Team cannot evaluate risk associated with the issue
+- ❌ Team cannot assign a point value
+- ❌ Issue will NOT be refined during refinement meetings
+- ❌ Developer cannot effectively start work on a fix
+
+The root cause should explain **why** the bug is happening, not just describe the symptoms. It should be specific enough that an implementer knows where to start looking to fix the issue.
+
+**Examples of root cause documentation:**
+
+❌ **Unhelpful:** "The arrow on the popover renders under the backdrop"
+- This only describes the symptom, not why it's happening
+
+❌ **Too vague:** "The arrow on the popover renders under the backdrop because of the styles"
+- Too broad, doesn't help the implementer know where to start
+
+✅ **Helpful:** "The arrow on the popover is rendering under the backdrop because the arrow's z-index value is too low. The backdrop has z-index: 100, but the arrow only has z-index: 10."
+- Clearly states the root cause and provides specific information about what needs to change
 
 ### Step 5: Apply Labels
 

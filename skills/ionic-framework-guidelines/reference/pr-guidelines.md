@@ -16,6 +16,12 @@ Comprehensive guidelines for creating, reviewing, and merging pull requests in I
 - [CI/CD Checks](#cicd-checks)
 - [Community PRs](#community-prs)
 - [Common Mistakes](#common-mistakes)
+- [Jira Workflow](#jira-workflow)
+- [Syncing Branches](#syncing-branches)
+- [Technical Debt Management](#technical-debt-management)
+- [Automatic PR Assignments](#automatic-pr-assignments)
+- [Simple PRs and Quick Fixes](#simple-prs-and-quick-fixes)
+- [Renovate & Dependabot PRs](#renovate--dependabot-prs)
 
 ---
 
@@ -598,6 +604,282 @@ Before:
 After:
 <ion-component newProp="value"></ion-component>
 ```
+
+---
+
+## Jira Workflow
+
+Ionic Framework follows a specific Jira workflow for tracking PR progress:
+
+**Workflow States:**
+1. **To Do** - Not started
+2. **In Progress** - Actively working on implementation
+3. **Review** - PR submitted and under review
+4. **Testing** - Testing phase (must complete before merge)
+5. **Waiting for Merge** - Approved and ready to merge
+6. **PO Acceptance** - Product Owner acceptance
+7. **Done** - Merged and closed
+
+**Critical Requirement:** Testing must be completed BEFORE merging. Once code is merged, it becomes part of the repository and impacts the community. To prevent last-minute issues that could delay releases, require commit reverts, or introduce new bugs, all testing must be done before the merge.
+
+Do not merge until:
+- ✅ Ticket is in "Waiting for Merge" state
+- ✅ All tests pass (unit, E2E, screenshot)
+- ✅ Manual testing completed
+- ✅ All CI checks pass
+
+---
+
+## Syncing Branches
+
+Feature branches must stay up to date with their base branch, especially after major changes.
+
+### Pre-Sync Steps
+
+Before starting a sync, announce a code freeze on the branches being synced. This prevents conflicts from new commits during the sync process.
+
+**Announcement channels:**
+- Post in team Slack channel
+- Message format: "Code freeze on [branch names]"
+
+### Sync Branch Creation
+
+To avoid merge conflicts, create a dedicated sync branch from the feature branch.
+
+**Example:** Syncing `next` branch with `main`
+
+1. **Update local branches:**
+   ```bash
+   git fetch origin
+   git checkout main
+   git pull origin main
+   git checkout next
+   git pull origin next
+   ```
+
+2. **Create sync branch from feature branch:**
+   ```bash
+   git checkout next
+   git checkout -b chore-sync-next-with-main
+   ```
+
+3. **Merge base branch into sync branch:**
+   ```bash
+   git merge origin/main
+   ```
+
+4. **Resolve merge conflicts:**
+   - For generated files (e.g., `api.txt`): Run `npm install && npm run build`
+   - For code conflicts: Resolve manually
+
+5. **Commit and push:**
+   ```bash
+   git add .
+   git commit -m "chore(git): sync with main"
+   git push origin chore-sync-next-with-main
+   ```
+
+6. **Create PR:**
+   - Title format: `chore(git): sync main`
+   - **Target branch:** Feature branch (`next`), NOT `main`
+   - Wait for CI checks to pass
+
+### Merging Sync PRs
+
+**⚠️ CRITICAL: Requires GitHub admin privileges**
+
+Sync PRs require a **regular merge commit**, not squash and merge. This preserves the full commit history from the base branch.
+
+**Steps for GitHub admins:**
+
+1. Navigate to [repository settings](https://github.com/ionic-team/ionic-framework/settings)
+2. Locate "Pull Requests" section
+3. ✅ Check "Allow merge commits" to enable regular merges
+4. In the PR dropdown, select "Create a merge commit" (not "Squash and merge")
+5. Confirm and merge the PR
+6. Navigate back to repository settings
+7. ❌ Uncheck "Allow merge commits" to restore squash-only mode
+
+### Accidentally Squashed a Sync PR?
+
+If you accidentally used "Squash and merge" for a sync PR, you'll need to undo it.
+
+**Recovery steps (requires GitHub admin):**
+
+1. Checkout the feature branch:
+   ```bash
+   git checkout next
+   ```
+
+2. Reset to the commit before the squashed commit:
+   ```bash
+   git reset --hard COMMIT-HASH
+   ```
+
+3. Force push:
+   ```bash
+   git push -f origin next
+   ```
+
+4. Repeat the sync process correctly with a regular merge commit
+
+### Post-Sync Steps
+
+After the sync PR is merged, end the code freeze.
+
+**Announcement:**
+- Post in team Slack channel
+- Message format: "Code unfreeze on [branch names]"
+
+---
+
+## Technical Debt Management
+
+When you need to defer work for later, create a tracking ticket and add a TODO comment to prevent it from being lost.
+
+### TODO Comment Format
+
+**Required format:**
+```typescript
+// TODO(TICKET-ID) [Short description]
+
+// Example:
+// TODO(FW-123) Fix underlying datetime issue
+// TODO(FW-456) Refactor animation system for better performance
+```
+
+### Process
+
+1. **Create a tracking ticket** for the technical debt
+2. **Add TODO comment in code** with ticket reference
+3. **Document context** in the ticket (why deferred, what needs to be done)
+4. **Link to technical debt epic** if your project uses one
+
+**Why this matters:** This ensures TODOs are tracked and can be found later. Without ticket references, technical debt gets lost and forgotten.
+
+---
+
+## Automatic PR Assignments
+
+The Ionic Framework repository uses GitHub features to automatically assign reviewers to PRs.
+
+### Assignment Mechanisms
+
+1. **CODEOWNERS** - Specific team members own certain code areas
+   - Defined in `.github/CODEOWNERS` file
+   - Automatically added as reviewers when their code is modified
+
+2. **Automatic PR Assignment** - Round-robin assignment
+   - Team members assigned automatically to balance review load
+   - Ensures all PRs have a reviewer
+
+### Review Priority
+
+When you're assigned to review PRs, prioritize as follows:
+
+1. **Internal PRs** (from team members) - Highest priority
+   - Review within 2 business days (first response)
+   - These are part of sprint work and may block other tasks
+
+2. **Community PRs** - Important but can be deprioritized temporarily
+   - Review within 3 business days (first response)
+   - It's acceptable to defer if you have higher priority work
+   - Communicate with team if you need help
+
+**Note:** If you need someone to take over a review, ask in the team channel.
+
+---
+
+## Simple PRs and Quick Fixes
+
+Some PRs are simple enough that the full review process would be overkill. Use your judgment to fast-track these when appropriate.
+
+### When to Fast-Track
+
+Feel free to review and merge directly for:
+
+- ✅ **Documentation fixes** - Typos, grammar, clarifications
+- ✅ **Comment updates** - Adding or modifying code comments
+- ✅ **Markdown file changes** - README, CHANGELOG, etc.
+- ✅ **Very simple bug fixes** - No more than a few lines, obvious fix
+
+### Fast-Track Process
+
+1. **Review the PR** as you normally would
+2. **Ensure CI passes** - Even simple changes need clean CI
+3. **Get approval** if there are questions or concerns
+4. **Merge when eligible** - Use standard merge process
+5. **No sprint planning needed** - These don't require full team discussion
+
+**Guidelines:**
+- Use common sense - if you're unsure, follow the normal process
+- Complex changes always go through full review
+- Features always require design documents and team approval
+
+---
+
+## Renovate & Dependabot PRs
+
+Automated dependency update PRs require special review attention.
+
+### Ionic Framework Repo
+
+#### For `dependencies` (Production Dependencies)
+
+**Review checklist:**
+- ✅ Project builds successfully: `npm run build`
+- ✅ Project runs and works correctly:
+  - For Stencil: Run dev server and test components
+  - For framework packages: Check E2E test apps function
+  - CI passing is usually a good indication
+- ✅ No breaking changes in dependency changelog
+- ✅ No new security vulnerabilities
+
+#### For `devDependencies` (Development Dependencies)
+
+**Review checklist:**
+- ✅ Project compiles successfully: `npm run build`
+- ✅ Local dev experience works:
+  - Example: If updating `@types/react`, ensure JSX bindings detect correctly
+  - Example: If updating build tools, verify dev server works
+- ✅ Tests pass: `npm run test`
+- ✅ CI passes
+
+#### For GitHub Actions Dependencies
+
+**Review checklist:**
+- ✅ Review changelog for each dependency being updated
+- ✅ Verify all CI checks pass
+- ✅ For release-related workflows, verify:
+  - `dev-build.yml` - Creating dev builds works
+  - `release-ionic.yml` - Release process works
+  - `nightly.yml` - Nightly builds work
+  - `release.yml` - Standard releases work
+
+**Testing release workflows:**
+Create a test dev build to ensure the updated actions work correctly before merging.
+
+### Ionic Docs Repo
+
+Renovate PRs on the ionic-docs repo only change dependencies for Stackblitz playground files (Ionic v6 and higher).
+
+**Review process:**
+
+1. **View the preview** - Check that docs site loads correctly
+
+2. **Test playgrounds** - For each Ionic version with dependency changes:
+   - Open the playground in Stackblitz
+   - Verify it loads and runs
+   - Test basic functionality
+
+3. **Decision:**
+   - ✅ **Everything works:** Approve and squash & merge
+   - ❌ **Issues found:**
+     - Critical: Add to backlog for investigation
+     - Non-critical: Skip the dependency update
+
+**Frequency management:**
+If a dependency updates too frequently and becomes annoying, you can limit the update frequency. For example, `@angular/*` dependencies are set to update monthly instead of on every release.
 
 ---
 

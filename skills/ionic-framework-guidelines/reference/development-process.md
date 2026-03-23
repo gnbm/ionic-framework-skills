@@ -449,6 +449,104 @@ All features must include:
    - Test with screen readers
    - Test in RTL mode
 
+### Testing Features in Actual Applications
+
+**Requirement:** Every feature must be tested in an actual Ionic application before merging.
+
+Automated tests are essential but mainly focus on validating that the feature works as intended. They don't test if a feature is easy to use or understand. Testing in a real application helps identify usability issues, confusing APIs, and integration problems.
+
+#### Minimum Testing Steps
+
+1. **Create a dev build** of your feature branch
+   ```bash
+   # Build the project
+   npm run build
+
+   # Package the build (varies by package)
+   npm pack
+   ```
+
+2. **Create an Ionic starter application**
+   ```bash
+   ionic start test-feature-app blank
+   cd test-feature-app
+   ```
+
+3. **Install the dev build** in the starter app
+   ```bash
+   # Install from the packed tarball
+   npm install /path/to/ionic-core-7.0.0-dev.tgz
+
+   # Or link for live development
+   cd /path/to/ionic-framework/core
+   npm link
+   cd /path/to/test-feature-app
+   npm link @ionic/core
+   ```
+
+4. **Activate the feature** in the application
+   - Create an instance of the component with the new property
+   - Exercise the new method or event
+   - Test the integration with framework-specific features
+
+5. **Test integrations** if applicable
+   - Forms integration (Angular Forms, React Hook Form, etc.)
+   - Router integration
+   - State management integration
+   - Accessibility tools
+
+#### Testing Evaluation Questions
+
+Ask yourself these questions while testing:
+
+1. **Documentation Match**
+   - Does the actual usage match what's in the documentation?
+   - Are there any surprises or unexpected behaviors?
+   - Would the documentation need to be updated based on actual usage?
+
+2. **API Clarity**
+   - Is the API naming clear and intuitive?
+   - Would another name be more descriptive or conventional?
+   - Does the API follow patterns established by other Ionic components?
+
+3. **Ease of Use**
+   - Can I concisely write code to use this feature?
+   - Do I need complicated or brittle code to activate it?
+   - Is the feature discoverable without reading documentation?
+   - Are error messages helpful if I use it incorrectly?
+
+4. **Integration Quality**
+   - Does it work well with other Ionic components?
+   - Does it integrate smoothly with framework-specific features?
+   - Are there any unexpected side effects or conflicts?
+
+#### Documenting Test Results
+
+Detail the testing steps you took on the feature PR. This helps reviewers understand how thoroughly the feature was tested.
+
+**Example:**
+```markdown
+## Manual Testing
+
+I validated this feature in an Ionic Angular application by:
+
+1. Created a form with multiple inputs using the new `clearInput` property
+2. Confirmed the clear button appears when input has a value
+3. Verified clicking the clear button:
+   - Clears the input value
+   - Emits the `ionClear` event
+   - Refocuses the input
+4. Tested integration with Angular Forms:
+   - Clear button triggers form validation correctly
+   - Form dirty state updates appropriately
+5. Tested accessibility:
+   - Screen reader announces "clear input" button
+   - Button is keyboard accessible (tab + enter)
+6. Tested on both iOS and Android devices
+
+The API is intuitive and works as documented. No issues found.
+```
+
 ### QA Checklist
 
 - ✅ Feature works as designed
